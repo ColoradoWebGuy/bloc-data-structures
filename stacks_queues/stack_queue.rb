@@ -24,6 +24,10 @@ class StackQueue
     return @outbox.pop()
   end
 
+  def empty?()
+    @inbox.empty? && @outbox.empty?
+  end
+
 end
 
 test = StackQueue.new
