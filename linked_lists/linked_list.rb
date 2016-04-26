@@ -1,5 +1,13 @@
 require 'benchmark'
 
+# What is Spatial Locality and why does it benefit performance?
+
+# Spatial locality is a term describing data representing itself in a sequence of
+#   references that are close in time and space.
+#
+# The advenatage of Spatial locality is by calling a series of sequential
+#   locations called a block.
+
 class LinkedList
 
   #LinkedList must keep track of its head node.
@@ -35,8 +43,13 @@ class LinkedList
 
 end
 
-n = 50000
-Benchmark.bm do |x|
+# array = (1..10000).map { rand }
+#
+# Benchmark.bmbm do |x|
+#   x.report("10k Array:") { array.dup.sort! }
+#   x.report("10k LinkedList:")  { array.dup.sort  }
+# end
+
   # 1) Compare the time it takes to create a 10,000 item Array to appending
   #     10,000 items to a Linked List.
   #
