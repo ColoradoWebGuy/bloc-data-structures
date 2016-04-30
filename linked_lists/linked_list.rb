@@ -98,94 +98,77 @@ class LinkedList
     #This method removes and returns the first node in the Linked List.
     #This method must set Linked List's head to the second node.
     @head = @head.next_node
+    current = delete(@head)
   end
 
 end
 
-# Initializing a Linked List with a node containing value (1)
-ll = LinkedList.new(1)
-# test adding to tail
-ll.add_to_tail(2)
-ll.add_to_tail(3)
-# test adding to front
-ll.add_to_front(4)
-ll.add_to_front(5)
-# test removing front and back
-ll.remove_front
-ll.remove_tail
-# test deleting a specified node
-ll.delete(1)
-# Display the Linked List
-puts "Displaying Linked List:"
-ll.print
+# 1) Compare the time it takes to create a 10,000 item Array to appending
+#     10,000 items to a Linked List.
 
+# timing an array made with 10k items
+time = Benchmark.realtime do
+  array = []
+  (1..10000).each { |i|
+    array.push(i)
+  }
+  puts "Array length: #{array.length}"
+end
+puts "Time elapsed to create a 10,000 item array: #{time*1000} milliseconds"
+puts "verses..."
+# timing an array made with 10k items
+time = Benchmark.realtime do
+  ll = LinkedList.new(0)
+  (1..10000).each { |i|
+    ll.add_to_tail(i)
+  }
+end
+puts "Time elapsed to add a 10,000 items to LinkedList: #{time*1000} milliseconds"
 
-# # 1) Compare the time it takes to create a 10,000 item Array to appending
-# #     10,000 items to a Linked List.
-#
-# # timing an array made with 10k items
-# time = Benchmark.realtime do
-#   array = []
-#   (1..10000).each { |i|
-#     array.push(i)
-#   }
-#   puts "Array length: #{array.length}"
-# end
-# puts "Time elapsed to create a 10,000 item array: #{time*1000} milliseconds"
-# puts "verses..."
-# # timing an array made with 10k items
-# time = Benchmark.realtime do
-#   ll = LinkedList.new(0)
-#   (1..10000).each { |i|
-#     ll.add_to_tail(i)
-#   }
-# end
-# puts "Time elapsed to add a 10,000 items to LinkedList: #{time*1000} milliseconds"
-#
-# puts "************************"
-# # 2( Compare the time it takes to access the 5000th element of the Array
-# #     and the 5000th Node in the Linked List.
-# time = Benchmark.realtime do
-#   array = []
-#   (1..10000).each { |i|
-#     array.push(i)
-#   }
-#   access = array[4999]
-#   puts "Accessed: #{access}"
-# end
-# puts "Time elapsed to access 5,000th element in array: #{time*1000} milliseconds"
-# puts "verses..."
-# # timing an array made with 10k items
-# time = Benchmark.realtime do
-#   ll = LinkedList.new(0)
-#   (1..10000).each { |i|
-#     ll.add_to_tail(i)
-#   }
-#   accessed = ll.get_item_at(5000)
-#   puts "Accessed node: #{accessed}"
-# end
-# puts "Time elapsed to access the 10,000th item in LinkedList: #{time*1000} milliseconds"
-# puts "************************"
-#
-# # 3) Compare the time it takes to remove the 5000th element from the Array
-# #     to removing the 5000th Node in the Linked List.
-# #     * In the Array, the 5001st item becomes the 5000th, and so on.
-# time = Benchmark.realtime do
-#   array = []
-#   (1..10000).each { |i|
-#     array.push(i)
-#   }
-#   array.delete_at(5000)
-#   puts "removed 5000th element: #{array.length}"
-# end
-# puts "Time elapsed to remove 5,000th element in array: #{time*1000} milliseconds"
-# puts "verses..."
-# # timing an array made with 10k items
-# time = Benchmark.realtime do
-#   ll = LinkedList.new(0)
-#   (1..10000).each { |i|
-#     ll.add_to_tail(i)
-#   }
-#   ll.delete(5000)
-# end
-# puts "Time elapsed to remove the 5,000th item in LinkedList: #{time*1000} milliseconds"
+puts "************************"
+# 2( Compare the time it takes to access the 5000th element of the Array
+#     and the 5000th Node in the Linked List.
+time = Benchmark.realtime do
+  array = []
+  (1..10000).each { |i|
+    array.push(i)
+  }
+  access = array[4999]
+  puts "Accessed: #{access}"
+end
+puts "Time elapsed to access 5,000th element in array: #{time*1000} milliseconds"
+puts "verses..."
+# timing an array made with 10k items
+time = Benchmark.realtime do
+  ll = LinkedList.new(0)
+  (1..10000).each { |i|
+    ll.add_to_tail(i)
+  }
+  accessed = ll.get_item_at(5000)
+  puts "Accessed node: #{accessed}"
+end
+puts "Time elapsed to access the 10,000th item in LinkedList: #{time*1000} milliseconds"
+puts "************************"
+
+# 3) Compare the time it takes to remove the 5000th element from the Array
+#     to removing the 5000th Node in the Linked List.
+#     * In the Array, the 5001st item becomes the 5000th, and so on.
+time = Benchmark.realtime do
+  array = []
+  (1..10000).each { |i|
+    array.push(i)
+  }
+  array.delete_at(5000)
+  puts "removed 5000th element: #{array.length}"
+end
+puts "Time elapsed to remove 5,000th element in array: #{time*1000} milliseconds"
+puts "verses..."
+# timing an array made with 10k items
+time = Benchmark.realtime do
+  ll = LinkedList.new(0)
+  (1..10000).each { |i|
+    ll.add_to_tail(i)
+  }
+  ll.delete(5000)
+end
+puts "Time elapsed to remove the 5,000th item in LinkedList: #{time*1000} milliseconds"

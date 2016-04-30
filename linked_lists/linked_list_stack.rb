@@ -1,21 +1,36 @@
+require_relative 'linked_list' # relative custom Entry class
 
 class LinkedListStack
   # A class that uses a LinkedList as its underlying data structure.
+
+  # The stack follows the LIFO (last in first out) behavior, so
+  #   using the pop / push methods will make that work.
+
+  attr_accessor :stack
+
+  def initialize val
+    @stack = LinkedList.new(val)
+  end
+
+  def push(element)
+    #adds to end of list
+    @stack.add_to_tail(element)
+  end
+
+  def pop
+    #takes off end of list
+    @stack.remove_tail
+  end
+
 end
 
-# array = (1..10000).map { rand }
-#
-# Benchmark.bmbm do |x|
-#   x.report("10k Array:") { array.dup.sort! }
-#   x.report("10k LinkedList:")  { array.dup.sort  }
-# end
+# Initializing a Linked List with a node containing value (1)
+lls = LinkedListStack.new(1)
 
-  # 1) Compare the time it takes to create a 10,000 item Array to appending
-  #     10,000 items to a Linked List.
-  #
-  # 2( Compare the time it takes to access the 5000th element of the Array
-  #     and the 5000th Node in the Linked List.
-  #
-  # 3) Compare the time it takes to remove the 5000th element from the Array
-  #     to removing the 5000th Node in the Linked List.
-  #     * In the Array, the 5001st item becomes the 5000th, and so on.
+lls.push(2)
+lls.push(3)
+lls.pop
+
+# Display the Linked List Stack
+puts "Displaying Linked List Stack:"
+lls.stack.print
