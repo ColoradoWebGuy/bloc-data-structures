@@ -28,6 +28,7 @@ class MyHash
       puts "New array is :: #{@array}."
 
       #rehash values with values from temp_array
+			rehash()
 
       index = index % @size # update new index within the new array size
       puts "New INDEX is :: #{index}."
@@ -37,15 +38,26 @@ class MyHash
     index
   end
 
+	def rehash
+    # create new_array
+		# for each item in @array, rehash using item.value
+		#		if collision
+		#			call resize
+		#			call rehash
+		#			break
+		# insert into new_array
+		# @array = new_array
+	end
+
   # # 2) Expand the internal array to a prime number nearest the next
   # #    power of 2 when you detect a collision, then reinsert all values.
   def resize()
     puts "#{nearest_prime_next_to_power_of_2 @size} is the closest prime to the next power of 2 after #{@size}."
     #resize array
     expected_size = nearest_prime_next_to_power_of_2(@size)
-    resized = @array[0, expected_size]
-    resized << nil while resized.size < expected_size
-    @array = resized #update array
+    #resized = @array[0, expected_size]
+    #resized << nil while resized.size < expected_size
+    #@array = resized #update array
     @size = expected_size # update previous size
   end
 
@@ -58,12 +70,12 @@ class MyHash
     # else
     #   true_index = hash(key)
     # end
-    @array[hash(key)] = value
+    @array[hash(key)] = MyBucket.new(key, value)
   end
 
   # 4) Create lookup (value = my_hash[key]) by overriding the respective operators.
   def lookup(key)
-    @array[hash(key)]
+    @array[hash(key)].value
   end
 
   def nearest_prime_next_to_power_of_2(num)
@@ -81,6 +93,15 @@ class MyHash
     (2..n/2).none?{|i| n % i == 0}
   end
 
+end
+
+
+class MyBucket
+	attr_reader :value
+
+	def initialize(key, value)
+		@key, @value = key, value
+	end
 end
 
 
