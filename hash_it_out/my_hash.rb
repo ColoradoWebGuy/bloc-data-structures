@@ -9,29 +9,20 @@ class MyHash
 
   # 1) Use a hashing function to generate unique, fixed-length hash codes.
   def hash(key)
-    index = 0
-    chars = key.split('')
-    chars.each.with_index do |char, i|
-      index = (i*char.ord + i*char.ord)
-    end
-    index = index % @size # make sure the new index is within the array size
-    puts "Index: #{index}"
+    index = gen_hash_index(key) # make sure the new index is within the array size
+    puts "Index at HASH: #{index}"
 
+    # if collision
     if @array[index]
       puts "Uh oh - gotta fix this collision: index: #{index} @: #{@array[index]}"
-      temp_array = []
-      temp_array.push(*@array)
-      puts "Temporary array :: #{temp_array}"
-
-      # resize array with a new insert index
+    # resize array
       resize()
-      puts "New array is :: #{@array}."
-
-      #rehash values with values from temp_array
+      #rehash existing values until no collisions
 			rehash()
-
-      index = index % @size # update new index within the new array size
-      puts "New INDEX is :: #{index}."
+      puts "after #{@array}"
+      # hash new key again
+      puts "BACK AT IT #{gen_hash_index(key)}"
+      index = gen_hash_index(key)
     end
 
     #return index
@@ -40,14 +31,38 @@ class MyHash
 
 	def rehash
     # create new_array
-		# for each item in @array, rehash using item.value
-		#		if collision
-		#			call resize
-		#			call rehash
-		#			break
-		# insert into new_array
-		# @array = new_array
+    new_array = []
+    puts "previous #{@array}"
+    @array.each do |item|
+
+      #rehash using existing items
+      if (item)
+        index = gen_hash_index(item.key)
+        if new_array[index] # if collision
+          resize() # resize / expand array
+          rehash() # restart the rehashing method
+          break # break from loop
+        end
+        new_array[index] = MyBucket.new(item.key, item.value) # insert new hash
+      end
+
+    end
+    puts "REHASHED with #{new_array} and a size of #{@size}"
+    #rest array with new_array
+		@array = new_array
 	end
+
+  def gen_hash_index(key)
+    index = 0
+    chars = key.split('')
+    chars.each.with_index do |char, i|
+      index = (i*char.ord + i*char.ord)
+    end
+    new_index = index % @size # make sure the new index is within the array size
+    puts "Index: #{index}"
+    puts "NewIndex: #{new_index} within size of #{@size}"
+    new_index
+  end
 
   # # 2) Expand the internal array to a prime number nearest the next
   # #    power of 2 when you detect a collision, then reinsert all values.
@@ -70,7 +85,9 @@ class MyHash
     # else
     #   true_index = hash(key)
     # end
-    @array[hash(key)] = MyBucket.new(key, value)
+    newKey = hash(key)
+    puts "NEW KEY!!!!!!!! #{newKey}"
+    @array[newKey] = MyBucket.new(key, value)
   end
 
   # 4) Create lookup (value = my_hash[key]) by overriding the respective operators.
@@ -97,7 +114,7 @@ end
 
 
 class MyBucket
-	attr_reader :value
+	attr_reader :value, :key
 
 	def initialize(key, value)
 		@key, @value = key, value
@@ -108,9 +125,7 @@ end
 hash = MyHash.new
 
 hash.insertion('foo', 'bar')
-p hash.array
 hash.insertion('oof', 'yolo')
-p hash.array
 hash.insertion('way', 'much')
 p hash.array
 
