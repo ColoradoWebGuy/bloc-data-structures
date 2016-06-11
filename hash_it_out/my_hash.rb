@@ -10,7 +10,6 @@ class MyHash
   # 1) Use a hashing function to generate unique, fixed-length hash codes.
   def hash(key)
     index = gen_hash_index(key) # make sure the new index is within the array size
-    puts "Index at HASH: #{index}"
 
     # if collision
     if @array[index]
@@ -19,9 +18,7 @@ class MyHash
       resize()
       #rehash existing values until no collisions
 			rehash()
-      puts "after #{@array}"
       # hash new key again
-      puts "BACK AT IT #{gen_hash_index(key)}"
       index = gen_hash_index(key)
     end
 
@@ -32,7 +29,6 @@ class MyHash
 	def rehash
     # create new_array
     new_array = []
-    puts "previous #{@array}"
     @array.each do |item|
 
       #rehash using existing items
@@ -59,7 +55,6 @@ class MyHash
       index = (i*char.ord + i*char.ord)
     end
     new_index = index % @size # make sure the new index is within the array size
-    puts "Index: #{index}"
     puts "NewIndex: #{new_index} within size of #{@size}"
     new_index
   end
@@ -79,14 +74,8 @@ class MyHash
   # 3) Create insertion(my_hash[key] = value) by overriding the respective operators.
   def insertion(key, value)
     # 5) Store each key and value pair as one element in the array.
-    # k = @array.length
-    # if (k != 0)
-    #   true_index = hash(key) % k
-    # else
-    #   true_index = hash(key)
-    # end
     newKey = hash(key)
-    puts "NEW KEY!!!!!!!! #{newKey}"
+    puts "********-- NEW KEY --******** ------------>>> #{newKey}"
     @array[newKey] = MyBucket.new(key, value)
   end
 
@@ -121,7 +110,6 @@ class MyBucket
 	end
 end
 
-
 hash = MyHash.new
 
 hash.insertion('foo', 'bar')
@@ -129,11 +117,8 @@ hash.insertion('oof', 'yolo')
 hash.insertion('way', 'much')
 p hash.array
 
-# puts lotr_runtimes.lookup('foo')
-# puts lotr_runtimes.lookup('oof')
-
-# => 'bar'
-
+# lotr_runtimes = MyHash.new
+#
 # lotr_runtimes.insertion("The Lord of the Rings: The Fellowship of the Ring", "3 hours, 48 minutes")
 # lotr_runtimes.insertion("The Lord of the Rings: The Two Towers","3 hours, 55 minutes")
 #
