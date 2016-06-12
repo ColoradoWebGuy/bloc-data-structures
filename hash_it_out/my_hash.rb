@@ -13,8 +13,8 @@ class MyHash
 
     # if collision
     if @array[index]
-      puts "Uh oh - gotta fix this collision: index: #{index} @: #{@array[index]}"
-    # resize array
+      #puts "Uh oh - gotta fix this collision: index: #{index} @: #{@array[index]}"
+      #resize array
       resize()
       #rehash existing values until no collisions
 			rehash()
@@ -43,26 +43,28 @@ class MyHash
       end
 
     end
-    puts "REHASHED with #{new_array} and a size of #{@size}"
+    #puts "REHASHED with #{new_array} and a size of #{@size}"
     #rest array with new_array
 		@array = new_array
 	end
 
   def gen_hash_index(key)
     index = 0
+    key.to_underscore! # strip any special characters, and snake case it
     chars = key.split('')
+    #puts "Characters SPLIT!!! #{chars}"
     chars.each.with_index do |char, i|
       index = (i*char.ord + i*char.ord)
     end
     new_index = index % @size # make sure the new index is within the array size
-    puts "NewIndex: #{new_index} within size of #{@size}"
+    #puts "NewIndex: #{new_index} within size of #{@size}"
     new_index
   end
 
   # # 2) Expand the internal array to a prime number nearest the next
   # #    power of 2 when you detect a collision, then reinsert all values.
   def resize()
-    puts "#{nearest_prime_next_to_power_of_2 @size} is the closest prime to the next power of 2 after #{@size}."
+    #puts "#{nearest_prime_next_to_power_of_2 @size} is the closest prime to the next power of 2 after #{@size}."
     #resize array
     expected_size = nearest_prime_next_to_power_of_2(@size)
     #resized = @array[0, expected_size]
@@ -75,7 +77,7 @@ class MyHash
   def insertion(key, value)
     # 5) Store each key and value pair as one element in the array.
     newKey = hash(key)
-    puts "********-- NEW KEY --******** ------------>>> #{newKey}"
+    #puts "********-- NEW KEY --******** ------------>>> #{newKey}"
     @array[newKey] = MyBucket.new(key, value)
   end
 
@@ -101,6 +103,15 @@ class MyHash
 
 end
 
+class String
+   def to_underscore!
+     gsub!(/(.)([A-Z])/,'\1_\2')
+     gsub!(/\s+/, "**")
+     gsub!(/:+/, "__")
+     downcase!
+   end
+end
+
 
 class MyBucket
 	attr_reader :value, :key
@@ -110,16 +121,26 @@ class MyBucket
 	end
 end
 
-hash = MyHash.new
-
-hash.insertion('foo', 'bar')
-hash.insertion('oof', 'yolo')
-hash.insertion('way', 'much')
-p hash.array
-
-# lotr_runtimes = MyHash.new
+# hash = MyHash.new
 #
-# lotr_runtimes.insertion("The Lord of the Rings: The Fellowship of the Ring", "3 hours, 48 minutes")
-# lotr_runtimes.insertion("The Lord of the Rings: The Two Towers","3 hours, 55 minutes")
-#
-# p lotr_runtimes.lookup('The Lord of the Rings: The Fellowship of the Ring')
+# hash.insertion('foo', 'bar')
+# hash.insertion('oof', 'yolo')
+# hash.insertion('way', 'much')
+# p hash.array
+
+lotr_runtimes = MyHash.new
+
+lotr_runtimes.insertion("The Lord of the Rings: The Fellowship of the Ring", "3 hours, 48 minutes")
+lotr_runtimes.insertion("The Lord of the Rings: The Two Towers","3 hours, 55 minutes")
+lotr_runtimes.insertion("The Lord of the Rings: The Return of the King","3 hours, 21 minutes")
+lotr_runtimes.insertion("The Hobbit: An Unexpected Journey","3 hours, 2 minutes")
+lotr_runtimes.insertion("The Hobbit: The Desolation of Smaug","3 hours, 7 minutes")
+lotr_runtimes.insertion("The Hobbit: The Battle of Five Armies","2 hours, 44 minutes")
+
+#p lotr_runtimes.lookup('The Hobbit: An Unexpected Journey')
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print "VALUE: #{val.value} \n"
+  end
+}
