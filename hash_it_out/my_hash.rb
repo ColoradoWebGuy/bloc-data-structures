@@ -1,6 +1,6 @@
 class MyHash
 
-  attr_accessor :array
+  attr_accessor :array, :size
 
   def initialize
      @array = []
@@ -27,6 +27,7 @@ class MyHash
   end
 
 	def rehash
+    puts "********************* !!!!!!!!!! REHASHING !!!!!!!! **************************************"
     # create new_array
     new_array = []
     @array.each do |item|
@@ -43,7 +44,7 @@ class MyHash
       end
 
     end
-    #puts "REHASHED with #{new_array} and a size of #{@size}"
+    puts "REHASHED with #{new_array} and a size of #{@size}"
     #rest array with new_array
 		@array = new_array
 	end
@@ -77,7 +78,7 @@ class MyHash
   def insertion(key, value)
     # 5) Store each key and value pair as one element in the array.
     newKey = hash(key)
-    #puts "********-- NEW KEY --******** ------------>>> #{newKey}"
+    puts "********-- NEW KEY --******** ------------>>> #{newKey}"
     @array[newKey] = MyBucket.new(key, value)
   end
 
@@ -131,16 +132,70 @@ end
 lotr_runtimes = MyHash.new
 
 lotr_runtimes.insertion("The Lord of the Rings: The Fellowship of the Ring", "3 hours, 48 minutes")
-lotr_runtimes.insertion("The Lord of the Rings: The Two Towers","3 hours, 55 minutes")
-lotr_runtimes.insertion("The Lord of the Rings: The Return of the King","3 hours, 21 minutes")
-lotr_runtimes.insertion("The Hobbit: An Unexpected Journey","3 hours, 2 minutes")
-lotr_runtimes.insertion("The Hobbit: The Desolation of Smaug","3 hours, 7 minutes")
-lotr_runtimes.insertion("The Hobbit: The Battle of Five Armies","2 hours, 44 minutes")
-
-#p lotr_runtimes.lookup('The Hobbit: An Unexpected Journey')
+print " first run -------------------->>>>>>>>>>"
 lotr_runtimes.array.each { |val|
   if val
     print "\n KEY: #{val.key} \n"
-    print "VALUE: #{val.value} \n"
+    print " VALUE: #{val.value} \n"
   end
 }
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+lotr_runtimes.insertion("The Lord of the Rings: The Two Towers","3 hours, 55 minutes")
+print "\n Second run -------------------->>>>>>>>>>"
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print " VALUE: #{val.value} \n"
+  end
+}
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+lotr_runtimes.insertion("The Lord of the Rings: The Return of the King","3 hours, 21 minutes")
+print "\n Third run -------------------->>>>>>>>>>"
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print " VALUE: #{val.value} \n"
+  end
+}
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+lotr_runtimes.insertion("The Hobbit: An Unexpected Journey","3 hours, 2 minutes")
+print "\n Fourth run -------------------->>>>>>>>>>"
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print " VALUE: #{val.value} \n"
+  end
+}
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+lotr_runtimes.insertion("The Hobbit: The Desolation of Smaug","3 hours, 7 minutes")
+print "\n Fifth run -------------------->>>>>>>>>>"
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print " VALUE: #{val.value} \n"
+  end
+}
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+lotr_runtimes.insertion("The Hobbit: The Battle of Five Armies","2 hours, 44 minutes")
+print "\n Sixth run -------------------->>>>>>>>>>"
+lotr_runtimes.array.each { |val|
+  if val
+    print "\n KEY: #{val.key} \n"
+    print " VALUE: #{val.value} \n"
+  end
+}
+puts "\n Length of the array: #{lotr_runtimes.size}"
+
+#p lotr_runtimes.lookup('The Hobbit: An Unexpected Journey')
+# lotr_runtimes.array.each { |val|
+#   if val
+#     print "\n KEY: #{val.key} \n"
+#     print " VALUE: #{val.value} \n"
+#   end
+# }
+# #
