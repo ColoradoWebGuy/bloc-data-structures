@@ -11,19 +11,23 @@ class MyHash
   def hash(key)
     index = gen_hash_index(key) # make sure the new index is within the array size
 
-    # if collision
-    if @array[index]
+    index = collision?(index, key)
+
+    index #return index
+  end
+
+  def collision?(i, key)
+    if @array[i]
       #puts "Uh oh - gotta fix this collision: index: #{index} @: #{@array[index]}"
       #resize array
       resize()
       #rehash existing values until no collisions
-			rehash()
+      rehash()
       # hash new key again
-      index = gen_hash_index(key)
+      i = gen_hash_index(key)
     end
 
-    #return index
-    index
+    return i;
   end
 
 	def rehash
@@ -35,11 +39,7 @@ class MyHash
       #rehash using existing items
       if (item)
         index = gen_hash_index(item.key)
-        if new_array[index] # if collision
-          resize() # resize / expand array
-          rehash() # restart the rehashing method
-          break # break from loop
-        end
+        index = collision?(index, item.key)
         new_array[index] = MyBucket.new(item.key, item.value) # insert new hash
       end
 
